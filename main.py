@@ -1,7 +1,4 @@
-import pyowm
-import json
-import falcon
-import os
+import os, json, falcon, pyowm
 from wsgiref import simple_server
 from pymemcache.client.base import Client
 
@@ -10,7 +7,6 @@ mem = Client((os.getenv('MEMCACHED_HOSTNAME', 'memcached'), 11211))
 
 class Weather(object):
     def on_get(self, req, resp, city):
-        """Handles GET requests"""
         resp.status = falcon.HTTP_200
         weather  = {}
         result = mem.get(city)
