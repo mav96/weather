@@ -4,7 +4,7 @@ import falcon
 from wsgiref import simple_server
 from pymemcache.client.base import Client
 
-owm = pyowm.OWM('f35186413e0abfb3c9f00ce26d54bda1')
+owm = pyowm.OWM('f35186413e0abfb3c9f00ce26d54bda1') # get from https://home.openweathermap.org/api_keys
 mem = Client(('memcached', 11211))
 
 class Weather(object):
@@ -23,14 +23,11 @@ class Weather(object):
             mem.set(city, result, 3600)
         resp.body = result
 
-# falcon.API instances are callable WSGI apps
 app = falcon.API()
 
-# things will handle all requests to the '/things' URL path
 app.add_route('/{city}', Weather())
 
 if __name__ == '__main__':
     httpd = simple_server.make_server('0.0.0.0', 80, app)
     httpd.serve_forever()
-
 
