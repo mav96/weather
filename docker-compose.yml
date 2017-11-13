@@ -1,0 +1,12 @@
+version: "3" 
+
+services:
+    web:
+        build: .
+        depends_on:
+            - memcached
+        ports:
+            - 8888:80
+
+    memcached:
+        image: memcached:alpine
