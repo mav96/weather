@@ -1,11 +1,12 @@
 import pyowm
 import json
 import falcon
+import os
 from wsgiref import simple_server
 from pymemcache.client.base import Client
 
 owm = pyowm.OWM('f35186413e0abfb3c9f00ce26d54bda1') # get from https://home.openweathermap.org/api_keys
-mem = Client(('memcached', 11211))
+mem = Client((os.getenv('MEMCACHED_HOSTNAME', 'memcached'), 11211))
 
 class Weather(object):
     def on_get(self, req, resp, city):
